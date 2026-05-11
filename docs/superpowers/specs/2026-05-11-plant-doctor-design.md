@@ -48,7 +48,7 @@ Plant Doctor was picked as the first build because:
 - BYOK (Bring Your Own Key)
 - Native mobile app
 - Email/notification reminders
-- **i18n** — UI is hardcoded English; system prompt is English. Qwen2.5-VL incidentally responds in user's input language when given non-English freeform text, but this is not designed behavior. v2 should extract UI strings, detect browser locale (with manual override), send `lang` parameter to API, and have the system prompt instruct the model to respond in that language.
+- **i18n** — UI is hardcoded English; system prompt is English. Qwen2.5-VL incidentally responds in user's input language when given non-English freeform text, but this is not designed behavior. v2 should: extract UI strings (svelte-i18n or paraglide); add a visible header language selector (listing languages in their own script + native name); default to `localStorage` choice → `navigator.language` → `en`; persist manual choice; send the effective `lang` to the API; keep the system prompt in English but instruct the model to respond in `{lang}`. Scientific names (Latin) stay canonical. Direct multilingual prompting is the default; pre-translate roundtrip only for low-resource languages where a fixture-based test shows direct fails.
 
 ## Architecture
 

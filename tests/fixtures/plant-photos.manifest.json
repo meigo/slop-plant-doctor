@@ -31,5 +31,11 @@
       }
     }
   ],
-  "instructions": "Add ~15-20 fixtures across categories: overwatering, underwatering, light burn, pest infestation, root rot, nutrient deficiency, normal seasonal yellowing, healthy plant. Source photos from r/plantclinic (with permission), university extension service galleries (CC-licensed), and personal plants. Each fixture file lives in tests/fixtures/plant-photos/ (gitignored)."
+  "instructions": "Add ~15-20 fixtures across categories: overwatering, underwatering, light burn, pest infestation, root rot, nutrient deficiency, normal seasonal yellowing, healthy plant. Source photos from r/plantclinic (with permission), university extension service galleries (CC-licensed), and personal plants. Each fixture file lives in tests/fixtures/plant-photos/ (gitignored).",
+  "fixturePrep": {
+    "filename": "Use neutral filenames (fixture-001.jpg, not potato-blight.jpg). The runner hardcodes a generic name when sending to OpenRouter and EXIF is stripped by canvas re-encoding in the live app, so the filename literally never reaches the LLM. But neutral names prevent YOU from getting biased while reviewing the report.",
+    "visibleText": "Crop out captions, labels, watermarks, and any visible text before saving. Vision LLMs read text — a Britannica-style image with 'Potato Leaf Blight' in the corner is the LLM reading the caption, not diagnosing the plant. Stock photos with scientific labels are bad fixtures.",
+    "freeformText": "Set 'freeformText' to neutral observations a non-expert would make ('lower leaves yellow, stems soft'), NOT to diagnostic guesses ('might be overwatering'). User context biases the model — fine in production, but in fixtures it tests the wrong thing.",
+    "exif": "EXIF/GPS/camera metadata is stripped by the live app's canvas re-encoding before the photo reaches the LLM, so fixture EXIF doesn't matter for runner accuracy. But you may want to strip it from fixtures anyway if you're sharing the manifest set publicly."
+  }
 }

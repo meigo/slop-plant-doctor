@@ -1,0 +1,3 @@
+```json
+{"species":null,"primary":{"name":"Light burn","confidence":0.6,"rationale":"Bleached patches on top-facing leaves.","recovery":[{"action":"move out of direct sun","when":"now"}]},"alternatives":[],"whatWouldChangeMyMind":[],"meta":{"model":"google/gemini-2.5-flash","createdAt":"2026-05-11T10:00:00Z"}}
+```

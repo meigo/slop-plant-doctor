@@ -1,0 +1,17 @@
+{
+  "species": { "name": "Monstera deliciosa", "confidence": 0.92 },
+  "primary": {
+    "name": "Overwatering",
+    "confidence": 0.75,
+    "rationale": "Yellow lower leaves, soft stems, soggy substrate visible at pot edge.",
+    "recovery": [
+      { "action": "stop watering", "when": "now, for 10 days" },
+      { "action": "check roots", "when": "today" }
+    ]
+  },
+  "alternatives": [
+    { "name": "Root rot", "confidence": 0.18, "rationale": "Advanced overwatering." }
+  ],
+  "whatWouldChangeMyMind": ["Roots black and mushy → root rot confirmed."],
+  "meta": { "model": "qwen/qwen-2.5-vl-72b-instruct", "createdAt": "2026-05-11T10:00:00Z" }
+}

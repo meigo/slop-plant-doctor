@@ -132,6 +132,10 @@
   </button>
 </form>
 
+<p style="margin-top: 1.5rem; text-align: center; color: var(--muted); font-size: 0.9rem;">
+  <a href="/example" style="color: var(--muted);">See an example diagnosis →</a>
+</p>
+
 <style>
   .photo-section { width: 100%; }
   .drop-zone {

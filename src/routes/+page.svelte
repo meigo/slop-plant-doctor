@@ -94,15 +94,27 @@
         Replace photo
       </button>
     {:else}
-      <label class="drop-zone">
-        <input
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          onchange={handlePhotoChange}
-          style="display: none;"
-        />
-        <span>Tap to take a photo or pick one</span>
-      </label>
+      <div class="photo-pickers">
+        <label class="photo-button">
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            capture="environment"
+            onchange={handlePhotoChange}
+            style="display: none;"
+          />
+          <span>Take a photo</span>
+        </label>
+        <label class="photo-button">
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onchange={handlePhotoChange}
+            style="display: none;"
+          />
+          <span>Choose from gallery</span>
+        </label>
+      </div>
     {/if}
     {#if photoError}
       <p style="color: var(--danger); margin-top: 0.5rem;">{photoError}</p>
@@ -150,4 +162,23 @@
     padding: 1rem;
   }
   .drop-zone:hover { background: rgba(0, 0, 0, 0.02); }
+  .photo-pickers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .photo-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90px;
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    cursor: pointer;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.95rem;
+  }
+  .photo-button:hover { background: rgba(0, 0, 0, 0.02); }
 </style>

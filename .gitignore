@@ -31,3 +31,5 @@ quality-reports/
 # Playwright output
 test-results/
 playwright-report/
+
+/temp/

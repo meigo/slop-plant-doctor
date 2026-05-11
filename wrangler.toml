@@ -4,6 +4,7 @@ main = ".wrangler/tmp/bundle_"
 assets = { directory = ".svelte-kit/cloudflare", binding = "ASSETS" }
 
 # KV binding — namespace ID set in Task 29
-# [[kv_namespaces]]
-# binding = "DIAGNOSES"
-# id = "<set in Task 29>"
+[[kv_namespaces]]
+binding = "DIAGNOSES"
+id = "7ed359c429394c9e99c640e7392054f9"
+preview_id = "fe02ca19ea4c4f309676abd2b50b709c"

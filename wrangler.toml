@@ -1,0 +1,9 @@
+name = "slop-plant-doctor"
+compatibility_date = "2026-05-01"
+main = ".wrangler/tmp/bundle_"
+assets = { directory = ".svelte-kit/cloudflare", binding = "ASSETS" }
+
+# KV binding — namespace ID set in Task 29
+# [[kv_namespaces]]
+# binding = "DIAGNOSES"
+# id = "<set in Task 29>"

@@ -9,11 +9,15 @@ describe('rate limit', () => {
     for (let i = 0; i < 5; i++) {
       const r = await checkAndIncrementRateLimit(kv, ipHash, 5);
       expect(r.allowed).toBe(true);
-      expect(r.remaining).toBe(5 - i - 1);
+      if (r.allowed) {
+        expect(r.remaining).toBe(5 - i - 1);
+      }
     }
     const r6 = await checkAndIncrementRateLimit(kv, ipHash, 5);
     expect(r6.allowed).toBe(false);
-    expect(r6.retryAfterSeconds).toBeGreaterThan(0);
+    if (!r6.allowed) {
+      expect(r6.retryAfterSeconds).toBeGreaterThan(0);
+    }
   });
 
   it('isolates different IPs', async () => {

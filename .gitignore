@@ -27,3 +27,7 @@ vite.config.ts.timestamp-*
 tests/fixtures/plant-photos/*
 !tests/fixtures/plant-photos/.gitignore
 quality-reports/
+
+# Playwright output
+test-results/
+playwright-report/

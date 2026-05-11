@@ -34,8 +34,11 @@
 		"wrangler": "^4.90.0"
 	},
 	"dependencies": {
+		"@tailwindcss/vite": "^4.3.0",
+		"lucide-svelte": "^1.0.1",
 		"nanoid": "^5.1.11",
 		"openai": "^6.37.0",
+		"tailwindcss": "^4.3.0",
 		"zod": "^4.4.3"
 	}
 }

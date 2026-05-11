@@ -10,6 +10,12 @@
 
 **Spec reference:** `slop-ideas/docs/superpowers/specs/2026-05-11-plant-doctor-design.md`
 
+**Deployment lessons learned (2026-05-11 execution):**
+- `@sveltejs/adapter-cloudflare@7.x` targets **Cloudflare Workers + Static Assets**, NOT legacy Pages. Deploy with `wrangler deploy`, not `wrangler pages deploy`. The corrected Task 30 below reflects this.
+- `wrangler.toml`'s `main` must point to a real persistent path (e.g. `.svelte-kit/cloudflare/_worker.js`) where the adapter writes the worker; the original placeholder `.wrangler/tmp/bundle_` is a wrangler-managed temp dir that gets cleared before deploy.
+- Non-secret env vars belong in `wrangler.toml [vars]` (or the Workers dashboard); secrets go via `wrangler secret put` (server-side, runtime) — `PUBLIC_*` env vars are baked at build time and must be in `.env` before `npm run build`.
+- Worker URL is `<name>.<your-subdomain>.workers.dev` (e.g. `slop-plant-doctor.meigo.workers.dev`), not `<name>.pages.dev`.
+
 **Working directory note:**
 - **Tasks 1–2** run from `~/Projects/slop/` (parent dir; we create `slop-plant-doctor/` there).
 - **Tasks 3+** run from `~/Projects/slop/slop-plant-doctor/` (the new repo).
@@ -218,16 +224,24 @@ export default defineConfig({
 
 - [ ] **Step 5: Create `wrangler.toml`**
 
+This is a Cloudflare **Workers + Static Assets** config (the deployment target of `@sveltejs/adapter-cloudflare` v7+). Deploys via `wrangler deploy`.
+
 ```toml
 name = "slop-plant-doctor"
 compatibility_date = "2026-05-01"
-main = ".wrangler/tmp/bundle_"
-assets = { directory = ".svelte-kit/cloudflare", binding = "ASSETS" }
 
-# KV binding — namespace ID set in Task 32
+# Workers + Static Assets pattern. The adapter writes the worker bundle here at build time.
+main = ".svelte-kit/cloudflare/_worker.js"
+
+[assets]
+directory = ".svelte-kit/cloudflare"
+binding = "ASSETS"
+
+# KV binding — namespace IDs set in Task 29
 # [[kv_namespaces]]
 # binding = "DIAGNOSES"
-# id = "<set in Task 32>"
+# id = "<set in Task 29>"
+# preview_id = "<set in Task 29>"
 ```
 
 - [ ] **Step 6: Update `package.json` scripts**
@@ -3358,18 +3372,29 @@ Note the returned `id`. Also create the preview namespace:
 npx wrangler kv namespace create DIAGNOSES --preview
 ```
 
-- [ ] **Step 3: Update `wrangler.toml`** with both IDs:
+- [ ] **Step 3: Update `wrangler.toml`** with KV IDs and non-secret env vars:
 
 ```toml
 name = "slop-plant-doctor"
 compatibility_date = "2026-05-01"
-main = ".wrangler/tmp/bundle_"
-assets = { directory = ".svelte-kit/cloudflare", binding = "ASSETS" }
+
+main = ".svelte-kit/cloudflare/_worker.js"
+
+[assets]
+directory = ".svelte-kit/cloudflare"
+binding = "ASSETS"
 
 [[kv_namespaces]]
 binding = "DIAGNOSES"
 id = "<id from non-preview create>"
 preview_id = "<id from preview create>"
+
+[vars]
+OPENROUTER_MODEL = "qwen/qwen-2.5-vl-72b-instruct"
+DAILY_BUDGET_CENTS = "1000"
+RATE_LIMIT_PER_HOUR = "10"
+DAILY_CAP_PER_IP = "50"
+MAX_OUTPUT_TOKENS = "1500"
 ```
 
 - [ ] **Step 4: Get a real Turnstile site key + secret**
@@ -3385,68 +3410,68 @@ git commit -m "Configure KV namespace bindings in wrangler.toml"
 
 ---
 
-### Task 30: Deploy to Cloudflare Pages
+### Task 30: Deploy to Cloudflare Workers
 
 **Working dir:** `~/Projects/slop/slop-plant-doctor/`
 
-- [ ] **Step 1: First deploy (creates the Pages project)**
+The `@sveltejs/adapter-cloudflare` v7+ deploys as a **Worker + Static Assets**, not a Pages project. Use `wrangler deploy`. KV binding and non-secret env vars come from `wrangler.toml` (see Task 29); secrets are set via `wrangler secret put`.
+
+- [ ] **Step 1: Put the real Turnstile site key in `.env`**
+
+`PUBLIC_TURNSTILE_SITE_KEY` is read from `.env` at build time and baked into the client bundle. Replace the test placeholder with the real site key from your Turnstile site in the CF dashboard:
+
+```
+PUBLIC_TURNSTILE_SITE_KEY=<real Turnstile site key from CF dashboard>
+```
+
+`.env` is gitignored — only your local copy gets the real key; production builds use whatever's in `.env` at build time.
+
+- [ ] **Step 2: Set the two server-side secrets**
+
+```bash
+npx wrangler secret put OPENROUTER_API_KEY
+# Paste the OpenRouter API key when prompted (sk-or-v1-...)
+
+npx wrangler secret put TURNSTILE_SECRET_KEY
+# Paste the Turnstile secret key (the pair of your site key)
+```
+
+Both go to the named Worker (`slop-plant-doctor` from `wrangler.toml`). No redeploy needed — they're picked up immediately.
+
+- [ ] **Step 3: Build and deploy**
 
 ```bash
 npm run build
-npx wrangler pages deploy .svelte-kit/cloudflare --project-name=slop-plant-doctor
+npx wrangler deploy
 ```
 
-This will prompt to confirm project creation and ask for a production branch. Choose `main`.
+The first deploy creates the Worker. Output gives you the URL: `https://slop-plant-doctor.<your-workers-subdomain>.workers.dev`.
 
-- [ ] **Step 2: Set production env vars + secrets**
+- [ ] **Step 4: Verify the Worker has all the right config**
 
-```bash
-# Public env var (build-time)
-npx wrangler pages secret put PUBLIC_TURNSTILE_SITE_KEY --project-name=slop-plant-doctor
-# (Paste the site key when prompted)
+In the Cloudflare dashboard → **Workers & Pages** → `slop-plant-doctor` (the Worker, not a Pages project) → **Settings** → **Variables and Secrets**, confirm you see:
+- 5 plaintext vars from `[vars]` in `wrangler.toml`
+- 2 secrets (`OPENROUTER_API_KEY`, `TURNSTILE_SECRET_KEY`) — values hidden, names visible
+- KV binding `DIAGNOSES` visible under Bindings
 
-# Server-side secrets
-npx wrangler pages secret put OPENROUTER_API_KEY --project-name=slop-plant-doctor
-npx wrangler pages secret put TURNSTILE_SECRET_KEY --project-name=slop-plant-doctor
-```
+If anything is missing, fix and redeploy.
 
-Note: `PUBLIC_*` vars need to be set as plain env vars in the dashboard rather than secrets (they're embedded in the client bundle anyway). In the Pages project dashboard → Settings → Environment variables, add:
-- `PUBLIC_TURNSTILE_SITE_KEY`: <site key>
-- `OPENROUTER_MODEL`: `qwen/qwen-2.5-vl-72b-instruct`
-- `DAILY_BUDGET_CENTS`: `1000`
-- `RATE_LIMIT_PER_HOUR`: `10`
-- `DAILY_CAP_PER_IP`: `50`
-- `MAX_OUTPUT_TOKENS`: `1500`
+- [ ] **Step 5: Smoke test**
 
-- [ ] **Step 3: Bind the KV namespace to the Pages project**
-
-In the Pages project dashboard → Settings → Functions → KV namespace bindings, add:
-- Variable name: `DIAGNOSES`
-- KV namespace: select the one created in Task 29
-
-- [ ] **Step 4: Redeploy with the bindings active**
-
-```bash
-npm run build
-npx wrangler pages deploy .svelte-kit/cloudflare --project-name=slop-plant-doctor
-```
-
-- [ ] **Step 5: Smoke test the deployment**
-
-Visit `https://slop-plant-doctor.pages.dev/` (or whatever URL was assigned).
+Visit the Worker URL.
 - Verify capture page renders.
-- Verify Turnstile widget loads.
-- Upload a real plant photo, submit.
-- Verify the result page renders with a working `/d/[id]` URL.
+- Verify Turnstile widget loads (check browser DevTools for the `challenges.cloudflare.com/turnstile` script).
+- Upload a real plant photo, complete Turnstile, submit.
+- Verify result page renders at `/d/[id]` with a working URL.
 - Visit `/example` to verify static page.
 
-- [ ] **Step 6: Tail logs to verify the cost-control chain**
+- [ ] **Step 6: Tail logs**
 
 ```bash
-npx wrangler pages deployment tail --project-name=slop-plant-doctor
+npx wrangler tail
 ```
 
-Submit another diagnosis. Watch the logs.
+Submit another diagnosis. Watch the logs (not `wrangler pages deployment tail` — that's for Pages only).
 
 - [ ] **Step 7: Commit any final config changes**
 

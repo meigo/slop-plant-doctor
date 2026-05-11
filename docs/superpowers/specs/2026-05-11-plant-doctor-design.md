@@ -59,7 +59,7 @@ Plant Doctor was picked as the first build because:
    - `/example` — static demo result (optional, for "see an example" link)
    - About / legal pages as needed
 
-2. **Pages Functions API**
+2. **Worker API routes** (Cloudflare Workers + Static Assets via `@sveltejs/adapter-cloudflare`)
    - `POST /api/diagnose` — multipart accept: photo + text + Turnstile token; returns `{ id, result }`
    - Result reads happen via SvelteKit `+page.server.ts` directly hitting KV (SSR); no separate GET endpoint needed for v1
 
@@ -426,8 +426,8 @@ These are knowingly deferred to implementation time, not blockers for the plan:
 | Layer | Tech | Notes |
 |---|---|---|
 | Frontend | SvelteKit + TypeScript | Match slop-skeptic precedent |
-| Hosting | Cloudflare Pages | Same |
-| API | Cloudflare Pages Functions | Same |
+| Hosting | Cloudflare Workers + Static Assets | via `@sveltejs/adapter-cloudflare` v7+ |
+| API | SvelteKit route handlers running inside the Worker | Same Worker as the static assets |
 | Storage | Cloudflare KV (`DIAGNOSES` namespace) | Single namespace |
 | Captcha | Cloudflare Turnstile | Free, integrated |
 | LLM | OpenRouter API | OpenAI-compatible, single client |

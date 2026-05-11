@@ -98,7 +98,6 @@
         <input
           type="file"
           accept="image/jpeg,image/png,image/webp"
-          capture="environment"
           onchange={handlePhotoChange}
           style="display: none;"
         />

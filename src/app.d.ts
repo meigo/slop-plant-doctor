@@ -16,6 +16,17 @@ declare global {
       caches: CacheStorage & { default: Cache };
     }
   }
+  interface Window {
+    turnstile?: {
+      render: (container: string | HTMLElement, opts: {
+        sitekey: string;
+        callback: (token: string) => void;
+        'error-callback'?: () => void;
+        'expired-callback'?: () => void;
+      }) => string;
+    };
+    onTurnstileLoad?: () => void;
+  }
 }
 
 export {};

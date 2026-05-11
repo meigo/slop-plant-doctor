@@ -1,5 +1,7 @@
 <script lang="ts">
   import { compressPhoto, type CompressedPhoto } from '$lib/photoCompress';
+  import { onMount } from 'svelte';
+  import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
 
   let photo: CompressedPhoto | null = $state(null);
   let photoError = $state<string | null>(null);
@@ -7,6 +9,20 @@
   let submitting = $state(false);
   let formError = $state<string | null>(null);
   let turnstileToken = $state<string | null>(null);
+
+  onMount(() => {
+    const render = () => {
+      if (!window.turnstile) return;
+      window.turnstile.render('#turnstile-container', {
+        sitekey: PUBLIC_TURNSTILE_SITE_KEY,
+        callback: (token) => { turnstileToken = token; },
+        'error-callback': () => { turnstileToken = null; },
+        'expired-callback': () => { turnstileToken = null; }
+      });
+    };
+    if (window.turnstile) render();
+    else window.onTurnstileLoad = render;
+  });
 
   async function handlePhotoChange(e: Event) {
     photoError = null;

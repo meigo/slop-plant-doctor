@@ -1,0 +1,35 @@
+{
+  "fixtures": [
+    {
+      "id": "monstera-overwatering-1",
+      "file": "monstera-overwatering-1.jpg",
+      "freeformText": "lower leaves turning yellow, soft stems",
+      "expected": {
+        "speciesContains": "Monstera",
+        "primaryCategory": "overwatering",
+        "primaryCategoryAlternatives": ["root rot", "overwater"]
+      },
+      "notes": "Classic overwatering presentation."
+    },
+    {
+      "id": "sansevieria-underwatering-1",
+      "file": "sansevieria-underwatering-1.jpg",
+      "freeformText": "leaves wrinkly, haven't watered in 3 weeks",
+      "expected": {
+        "speciesContains": "Sansevieria",
+        "primaryCategory": "underwatering"
+      }
+    },
+    {
+      "id": "pothos-light-burn-1",
+      "file": "pothos-light-burn-1.jpg",
+      "freeformText": "bleached patches after I moved it to a south window",
+      "expected": {
+        "speciesContains": "Epipremnum",
+        "primaryCategory": "light burn",
+        "primaryCategoryAlternatives": ["sunburn", "too much light"]
+      }
+    }
+  ],
+  "instructions": "Add ~15-20 fixtures across categories: overwatering, underwatering, light burn, pest infestation, root rot, nutrient deficiency, normal seasonal yellowing, healthy plant. Source photos from r/plantclinic (with permission), university extension service galleries (CC-licensed), and personal plants. Each fixture file lives in tests/fixtures/plant-photos/ (gitignored)."
+}

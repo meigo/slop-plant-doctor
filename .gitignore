@@ -26,3 +26,4 @@ vite.config.ts.timestamp-*
 .dev.vars
 tests/fixtures/plant-photos/*
 !tests/fixtures/plant-photos/.gitignore
+quality-reports/

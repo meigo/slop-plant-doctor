@@ -48,6 +48,7 @@ Plant Doctor was picked as the first build because:
 - BYOK (Bring Your Own Key)
 - Native mobile app
 - Email/notification reminders
+- **i18n** — UI is hardcoded English; system prompt is English. Qwen2.5-VL incidentally responds in user's input language when given non-English freeform text, but this is not designed behavior. v2 should extract UI strings, detect browser locale (with manual override), send `lang` parameter to API, and have the system prompt instruct the model to respond in that language.
 
 ## Architecture
 

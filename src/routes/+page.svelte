@@ -122,6 +122,9 @@
     {#if photoError}
       <p class="text-danger mt-2 text-sm">{photoError}</p>
     {/if}
+    <p class="text-xs text-muted mt-2">
+      Photos are sent to a third-party AI service (OpenRouter → Qwen2.5-VL) for analysis and not retained after the response is returned. Avoid uploading images with personal info you don't want shared.
+    </p>
   </div>
 
   <div class="mt-4">

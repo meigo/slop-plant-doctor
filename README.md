@@ -6,7 +6,7 @@ First instance of the **Vision-LLM as Ambient Domain Expert** pattern (see `docs
 
 ## Stack
 
-SvelteKit (Svelte 5) + TypeScript on Cloudflare Workers + Static Assets. OpenRouter (default Qwen2.5-VL 72B) for diagnosis. KV for result persistence. Turnstile for abuse protection. Tailwind v4 + Lucide + IBM Plex Mono with dark-default theme. No DB, no accounts, no image storage.
+SvelteKit (Svelte 5) + TypeScript on Cloudflare Workers + Static Assets. OpenRouter (default Qwen2.5-VL 72B) for diagnosis. KV for result persistence. Turnstile for abuse protection. Tailwind v4 + Lucide + IBM Plex Mono with dark-default theme. No DB, no accounts, no image storage server-side — photos are forwarded to OpenRouter for the diagnosis call and not retained after the response.
 
 ## Dev
 

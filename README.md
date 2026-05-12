@@ -40,15 +40,17 @@ npm run quality            # manual quality runner against the fixture set (requ
 4. `wrangler secret put OPENROUTER_API_KEY` and `wrangler secret put TURNSTILE_SECRET_KEY`
 5. `npm run build && npx wrangler deploy`
 
-## Cost controls
+## Cost & abuse controls
+
+> ⚠️ **Read before changing these values.** This is the only thing standing between your OpenRouter account and a runaway bill if the URL gets shared somewhere unfriendly. The defaults are intentionally conservative.
 
 Layered (env-tunable):
-- Turnstile captcha (`TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY`)
+- Turnstile captcha (`TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY`) — blocks bots before any LLM call
 - Per-IP hourly rate limit (default 10/hour, `RATE_LIMIT_PER_HOUR`)
 - Per-IP daily cap (default 50/day, `DAILY_CAP_PER_IP`)
-- Global daily budget cap (default $10 USD, `DAILY_BUDGET_CENTS=1000`)
+- **Global daily budget cap** (default $10 USD/day, `DAILY_BUDGET_CENTS=1000`) — hard ceiling. Each request reserves an estimated 30¢ in KV *before* calling OpenRouter; when reservations exhaust the cap, the API returns 503 until the next UTC day. With Qwen2.5-VL at current pricing (~0.5¢/call), the 30¢ reservation gives ~60× headroom for model-price drift.
 
-When the global cap is hit, the API returns 503 until the next UTC day.
+With defaults, the **maximum loss per month is ~$300** (=$10 × 31 days). If you raise `DAILY_BUDGET_CENTS`, you're proportionally raising the worst case. The MIT license disclaims liability; you own the cap you set.
 
 ## Style system
 

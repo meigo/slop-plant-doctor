@@ -70,7 +70,8 @@ async function record(photoPath: string) {
   const browser = await chromium.launch();
   const context = await browser.newContext({
     ...devices['iPhone 13'],
-    recordVideo: { dir: OUT_DIR, size: { width: 390, height: 844 } }
+    viewport: { width: 390, height: 720 },
+    recordVideo: { dir: OUT_DIR, size: { width: 390, height: 720 } }
   });
   const page = await context.newPage();
 
@@ -81,31 +82,31 @@ async function record(photoPath: string) {
 
   await page.goto(BASE);
   await page.addStyleTag({ content: '#turnstile-container { display: none !important; }' });
-  await sleep(1200);
+  await sleep(1500);
 
   const galleryInput = page.locator('input[type="file"]').nth(1);
   await galleryInput.setInputFiles(photoPath);
   await page.waitForSelector('img[alt="Selected plant"]', { state: 'visible' });
-  await sleep(900);
+  await sleep(1200);
 
   await page.locator('textarea').click();
-  await page.locator('textarea').pressSequentially('Yellowing lower leaves, soft stem', { delay: 50 });
-  await sleep(700);
+  await page.locator('textarea').pressSequentially('Yellowing lower leaves, soft stem', { delay: 70 });
+  await sleep(1200);
 
   const submitBtn = page.locator('button[type="submit"]');
   await submitBtn.waitFor({ state: 'visible' });
   await submitBtn.click();
-  await sleep(1400);
+  await sleep(1800);
 
   await page.goto(`${BASE}/example`);
-  await sleep(1500);
+  await sleep(2400);
 
   await page.evaluate(() => window.scrollBy({ top: 320, behavior: 'smooth' }));
-  await sleep(1400);
+  await sleep(2200);
   await page.evaluate(() => window.scrollBy({ top: 360, behavior: 'smooth' }));
-  await sleep(1400);
+  await sleep(2200);
   await page.evaluate(() => window.scrollBy({ top: 360, behavior: 'smooth' }));
-  await sleep(1200);
+  await sleep(1800);
 
   await context.close();
   await browser.close();
@@ -116,7 +117,7 @@ function convertToGif() {
   if (!videos.length) fail('Playwright produced no .webm');
   const webm = join(OUT_DIR, videos[0]);
 
-  const filter = 'fps=15,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=96[p];[s1][p]paletteuse=dither=bayer';
+  const filter = 'fps=10,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=96[p];[s1][p]paletteuse=dither=bayer';
   execSync(`ffmpeg -y -ss 3 -i "${webm}" -vf "${filter}" -loop 0 "${FINAL_GIF}"`, { stdio: 'inherit' });
 }
 

@@ -57,4 +57,4 @@ When the global cap is hit, the API returns 503 until the next UTC day.
 
 - Design spec: `docs/superpowers/specs/2026-05-11-plant-doctor-design.md`
 - Implementation plan: `docs/superpowers/plans/2026-05-11-plant-doctor.md`
-- Vetted entry + pattern: `../slop-ideas/VETTED.md`
+- Pattern + sibling instances: tracked in a private idea-management repo

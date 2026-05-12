@@ -32,4 +32,13 @@ quality-reports/
 test-results/
 playwright-report/
 
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Misc
+*.log
+coverage/
+
 /temp/

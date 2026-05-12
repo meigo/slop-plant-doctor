@@ -6,7 +6,7 @@ First instance of the **Vision-LLM as Ambient Domain Expert** pattern (see `docs
 
 ## Stack
 
-SvelteKit (Svelte 5) + TypeScript on Cloudflare Pages. OpenRouter (default Qwen2.5-VL 72B) for diagnosis. KV for result persistence. Turnstile for abuse protection. No DB, no accounts, no image storage.
+SvelteKit (Svelte 5) + TypeScript on Cloudflare Workers + Static Assets. OpenRouter (default Qwen2.5-VL 72B) for diagnosis. KV for result persistence. Turnstile for abuse protection. Tailwind v4 + Lucide + IBM Plex Mono with dark-default theme. No DB, no accounts, no image storage.
 
 ## Dev
 
@@ -34,14 +34,11 @@ npm run quality            # manual quality runner against the fixture set (requ
 
 ## Deploy
 
-See `docs/superpowers/plans/2026-05-11-plant-doctor.md` Phase 14 (Tasks 29-30).
-
-Summary:
-1. `wrangler kv namespace create DIAGNOSES` → update `wrangler.toml` with the namespace ID
+1. `wrangler kv namespace create slop-plant-doctor-DIAGNOSES` → update `wrangler.toml` with the namespace ID
 2. Get real Turnstile site + secret keys from the Cloudflare dashboard
-3. `wrangler pages deploy .svelte-kit/cloudflare --project-name=slop-plant-doctor`
-4. Set Pages project env vars + secrets via the Cloudflare dashboard
-5. Bind the KV namespace to the Pages project
+3. Put real site key in `.env` (`PUBLIC_TURNSTILE_SITE_KEY=...`)
+4. `wrangler secret put OPENROUTER_API_KEY` and `wrangler secret put TURNSTILE_SECRET_KEY`
+5. `npm run build && npx wrangler deploy`
 
 ## Cost controls
 
@@ -53,8 +50,11 @@ Layered (env-tunable):
 
 When the global cap is hit, the API returns 503 until the next UTC day.
 
+## Style system
+
+Tailwind v4 + Lucide icons + IBM Plex Mono. Dark default with a sun/moon toggle (persisted in `localStorage`). Mono + functional accents palette: grayscale base, red/amber/green only for semantic signals (danger / warning / success). Component primitives in `src/lib/components/` (`ThemeToggle`, `PageHeader`) and theme tokens in `src/app.css`.
+
 ## Docs
 
 - Design spec: `docs/superpowers/specs/2026-05-11-plant-doctor-design.md`
-- Implementation plan: `docs/superpowers/plans/2026-05-11-plant-doctor.md`
 - Pattern + sibling instances: tracked in a private idea-management repo

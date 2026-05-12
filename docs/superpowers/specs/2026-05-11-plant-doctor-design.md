@@ -1,10 +1,8 @@
 # Plant Doctor v1 Design
 
 **Date:** 2026-05-11
-**Status:** Brainstorming → ready for writing-plans
-**Project repo (planned):** `../slop-plant-doctor/` (not yet bootstrapped)
-**Vetted entry:** `VETTED.md` → Plant Doctor
-**Follows pattern:** Vision-LLM as Ambient Domain Expert
+**Status:** Shipped (deployed 2026-05-11 at https://slop-plant-doctor.meigo.workers.dev/)
+**Follows pattern:** Vision-LLM as Ambient Domain Expert (first instance)
 
 ## Summary
 
@@ -16,7 +14,7 @@ The goal of v1 is to validate the Vision-LLM as Ambient Domain Expert pattern on
 
 ## Context
 
-Plant Doctor is the first instance of the Vision-LLM as Ambient Domain Expert pattern (see `VETTED.md`). The pattern bet: vision-LLMs combined with calibrated reasoning + actionable next-step output close the "expert-in-your-pocket" gap that classical CV ID apps (PictureThis, iNaturalist, Picture Insect) intentionally leave open.
+Plant Doctor is the first instance of the Vision-LLM as Ambient Domain Expert pattern. The pattern bet: vision-LLMs combined with calibrated reasoning + actionable next-step output close the "expert-in-your-pocket" gap that classical CV ID apps (PictureThis, iNaturalist, Picture Insect) intentionally leave open.
 
 Plant Doctor was picked as the first build because:
 - Shortest effort estimate (3–5 weeks)

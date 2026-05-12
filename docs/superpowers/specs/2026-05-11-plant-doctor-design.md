@@ -434,7 +434,7 @@ These are knowingly deferred to implementation time, not blockers for the plan:
 | Schema validation | Zod | Standard |
 | Testing | Vitest + Playwright | Reuse slop-skeptic config |
 | Compression (client) | browser-native canvas resize + JPEG encode | No external dep |
-| Dev | `wrangler pages dev` | Local stack |
+| Dev | `vite dev` (SvelteKit) | Local stack |
 
 ## Estimated Effort
 

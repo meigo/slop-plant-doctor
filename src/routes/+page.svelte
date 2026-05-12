@@ -85,10 +85,7 @@
 
 <PageHeader>Plant Doctor</PageHeader>
 
-<section class="mb-8">
-  <h1 class="text-xl font-semibold tracking-tight mb-1">Plant Doctor</h1>
-  <p class="text-muted text-sm">Photo + a few words. Get a diagnosis.</p>
-</section>
+<p class="text-muted text-sm mb-8">Photo + a few words. Get a diagnosis.</p>
 
 <form onsubmit={handleSubmit}>
   <div>

@@ -9,7 +9,9 @@
 
 <header class="flex items-center justify-between mb-6">
   {#if isHome}
-    <span></span>
+    <h1 class="text-xl font-semibold tracking-tight m-0">
+      {#if children}{@render children()}{/if}
+    </h1>
   {:else}
     <a href={backHref} class="flex items-center gap-1.5 text-muted hover:text-fg transition no-underline">
       <ArrowLeft size={16} />

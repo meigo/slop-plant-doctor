@@ -2,6 +2,8 @@
 
 Public, free, mobile-first web app: photo + a few words → structured plant diagnosis with confidence, evidence-cited rationale, recovery plan, and "what would change my mind" verification.
 
+**Diagnoses are model-generated and can be wrong.** Confidence percentages reflect the model's own estimate, not certainty. Treat the output as a starting point and verify before acting — particularly for rare or valuable plants.
+
 First instance of the **Vision-LLM as Ambient Domain Expert** pattern (see `docs/superpowers/specs/2026-05-11-plant-doctor-design.md`).
 
 ![Demo](./demo.gif)

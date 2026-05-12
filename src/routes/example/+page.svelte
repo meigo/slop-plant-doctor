@@ -33,6 +33,9 @@
 
 <PageHeader>Plant Doctor</PageHeader>
 
+<p class="text-xs text-muted mb-2">
+  Model-generated diagnosis — verify before acting on anything high-stakes.
+</p>
 <p class="text-muted text-sm mb-6">This is a static example, not a real diagnosis.</p>
 
 <section class="mb-6">

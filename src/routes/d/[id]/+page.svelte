@@ -24,6 +24,10 @@
 
 <PageHeader>Plant Doctor</PageHeader>
 
+<p class="text-xs text-muted mb-6">
+  Model-generated diagnosis — verify before acting on anything high-stakes.
+</p>
+
 <section class="mb-6">
   {#if result.species}
     <p class="text-xs uppercase tracking-wider text-muted m-0">Species</p>

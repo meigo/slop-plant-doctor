@@ -11,6 +11,7 @@ declare global {
         MAX_OUTPUT_TOKENS?: string;
         TURNSTILE_SITE_KEY: string;
         TURNSTILE_SECRET_KEY: string;
+        HASH_SALT: string;
       };
       context: { waitUntil(promise: Promise<unknown>): void };
       caches: CacheStorage & { default: Cache };

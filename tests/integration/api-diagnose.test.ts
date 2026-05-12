@@ -36,7 +36,8 @@ const baseEvent = (request: Request, kv: KVNamespace) => ({
       DAILY_CAP_PER_IP: '50',
       MAX_OUTPUT_TOKENS: '1500',
       TURNSTILE_SITE_KEY: 'site',
-      TURNSTILE_SECRET_KEY: 'secret'
+      TURNSTILE_SECRET_KEY: 'secret',
+      HASH_SALT: 'test-salt'
     }
   },
   getClientAddress: () => '1.2.3.4'

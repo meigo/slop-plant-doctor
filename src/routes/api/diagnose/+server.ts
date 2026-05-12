@@ -55,7 +55,7 @@ export const POST: RequestHandler = async ({ request, platform, getClientAddress
     const ok = await verifyTurnstile(env.TURNSTILE_SECRET_KEY, turnstileToken, ip);
     if (!ok) return errorResponse(turnstileFailed());
 
-    const ipHash = await sha256Hex(ip);
+    const ipHash = await sha256Hex(env.HASH_SALT + ':' + ip);
 
     const rate = await checkAndIncrementRateLimit(env.DIAGNOSES, ipHash, envInt(env.RATE_LIMIT_PER_HOUR, 10));
     if (!rate.allowed) return errorResponse(rateLimited(rate.retryAfterSeconds));

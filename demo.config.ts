@@ -1,4 +1,4 @@
-import { defineConfig } from '@slop/demogen';
+import { defineConfig } from '@meigo/demogen';
 
 export default defineConfig({
   dev: {

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ArrowLeft } from 'lucide-svelte';
+  import { ArrowLeft, Activity } from 'lucide-svelte';
   import { page } from '$app/state';
   import ThemeToggle from './ThemeToggle.svelte';
 
@@ -9,7 +9,8 @@
 
 <header class="flex items-center justify-between mb-6">
   {#if isHome}
-    <h1 class="text-xl font-semibold tracking-tight m-0">
+    <h1 class="text-xl font-semibold tracking-tight m-0 flex items-center gap-2">
+      <Activity size={20} />
       {#if children}{@render children()}{/if}
     </h1>
   {:else}

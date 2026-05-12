@@ -1,7 +1,7 @@
 # Plant Doctor v1 Design
 
 **Date:** 2026-05-11
-**Status:** Shipped (deployed 2026-05-11 at https://slop-plant-doctor.meigo.workers.dev/)
+**Status:** Shipped (deployed 2026-05-11)
 **Follows pattern:** Vision-LLM as Ambient Domain Expert (first instance)
 
 ## Summary

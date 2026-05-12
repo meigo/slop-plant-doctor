@@ -28,7 +28,7 @@ export async function callOpenRouter(args: OpenRouterCallArgs): Promise<OpenRout
       Authorization: `Bearer ${args.apiKey}`,
       'Content-Type': 'application/json',
       // Optional but recommended by OpenRouter:
-      'HTTP-Referer': 'https://slop-plant-doctor.pages.dev',
+      'HTTP-Referer': 'https://github.com/meigo/slop-plant-doctor',
       'X-Title': 'Plant Doctor'
     },
     body: JSON.stringify({
